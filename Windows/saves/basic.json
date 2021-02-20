@@ -220,7 +220,7 @@
       "desc": "小航の小窝",
       "icon": {
         "type": "fa",
-        "content": "yoast",
+        "content": "desktop",
         "bg": "#6b96cf"
       },
       "openMode": "normal",
