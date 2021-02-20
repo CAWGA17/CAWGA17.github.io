@@ -1,0 +1,46 @@
+<h1 id="JustifiedGallery"><a href="#JustifiedGallery" class="headerlink" title="JustifiedGallery"></a>JustifiedGallery</h1><p>JustifiedGallery is the algorithm part needed to compute a grid of images a la flickr <a href="https://www.flickr.com/explore">explore page</a>.</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>You can check a plain vanilla javascript demo <a href="http://j.mp/justifiedGrid">here</a></p>
+<h2 id="Instalation"><a href="#Instalation" class="headerlink" title="Instalation"></a>Instalation</h2><p>In your project</p>
+<p><code>npm install justifiedgallery --save</code></p>
+<p>Since it’s an npm module, use it with <a href="https://webpack.github.io/">webpack</a> or <a href="http://browserify.org/">browserify</a></p>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><pre><code class="javascript">import PhotoGrid from &#39;justifiedgallery&#39;;
+
+let images = [imgMeta1, imgMeta2];
+let grid = new PhotoGrid({
+  // mandatory, in px
+  minHeight: 150,
+  maxHeight: 350,
+  
+  // optional, in px
+  borderWidth: 2,
+  
+  // mandatory, this function must return an object
+  // having width and height properties
+  getImageMeta: (image) =&gt; {
+    image.width = image.originalDimensions.width;
+    image.height = image.originalDimensions.height;
+    return image;
+  },
+  
+  // optional, determine which available version of the original image fits best
+  filesGetter: (image) =&gt; {
+    // resized images should either be an array of objects having width and height properties
+    // or a hashmap: {[k: string] : {width: number, height: number}}
+    // e.g. [{width: 220, height: 100}, {width: 640, height: 480}]
+    // or {lowQ: {width: 220, height: 100}, medQ: {width: 640, height: 480}}
+    let resizedImages = image.resizedImages;
+    return resizedImages;
+  }
+ }, images);
+ 
+ // get grid container width
+ let containerWidth = document.getElementById(&quot;myGridContainer&quot;).clientHeight;
+ 
+ // compute rows for the given container width
+ // rows will be a list of GridRow instances
+ let rows = grid.getRows(containerWidth);
+ 
+ let row0 = rows[0];
+ let imagesToShowOnFirstRow = row0.getItems();
+</code></pre>
+<p> So the component should be used with any view framework -&gt; e.g. jQuery, jsx, vanilla js and so on.</p>
